@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <!-- appender很重要，一个配置文件会有多个appender -->
+    <!-- ConsoleApperder意思是从console中打印出来 -->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!--<filter>标签。
+            过滤器，执行一个过滤器会有返回个枚举值，即DENY，NEUTRAL，ACCEPT其中之一。
+            返回DENY，日志将立即被抛弃不再经过其他过滤器；
+            返回NEUTRAL，有序列表里的下个过滤器过接着处理日志；
+            返回ACCEPT，日志会被立即处理，不再经过剩余过滤器。
+            过滤器被添加到<Appender> 中，为<Appender> 添加一个或多个过滤器后，可以用任意条件对日志进行过滤。<Appender> 有多个过滤器时，按照配置顺序执行。
+       -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+
+        <!-- encoder编码规则 -->
+        <!-- pattern模式 %d时间 %thread 线程名 %level行为级别 %logger logger名称 %method 方法名称 %message 调用方法的入参消息 -->
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 路径 -->
+            <!-- 日志输出文件 -->
+            <fileNamePattern>/var/log/tomcat/mypro/info.%d.log</fileNamePattern>
+        </rollingPolicy>
+
+        <!-- 控制归档文件的最大数量的保存，删除旧的文件，默认单位天数 -->
+        <!-- 保留30天的历史日志 -->
+        <maxHistory>30</maxHistory>
+    </appender>
+
+
+    <!-- 可以写多个日志文件appender，然后区分多个模块的日志 -->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 过滤器，一个appender可以有多个 -->
+        <!-- 阈值过滤，就是log行为级别过滤，debug及debug以上的信息会被打印出来 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 路径 -->
+            <fileNamePattern>/var/log/tomcat/mypro/error.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileInfoLog" />
+        <appender-ref ref="fileErrorLog" />
+    </root>
+
+</configuration>
