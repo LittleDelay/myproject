@@ -40,12 +40,13 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 路径 -->
             <!-- 日志输出文件 -->
-            <fileNamePattern>/var/log/tomcat/mypro/info.%d.log</fileNamePattern>
+            <!--<fileNamePattern>/var/log/tomcat/mypro/info.%d.log</fileNamePattern>-->
+            <fileNamePattern>E:\log\mypro\info/info.%d.log</fileNamePattern>
         </rollingPolicy>
 
         <!-- 控制归档文件的最大数量的保存，删除旧的文件，默认单位天数 -->
         <!-- 保留30天的历史日志 -->
-        <maxHistory>30</maxHistory>
+        <!--<maxHistory>30</maxHistory>-->
     </appender>
 
 
@@ -66,7 +67,8 @@
         <!-- 滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 路径 -->
-            <fileNamePattern>/var/log/tomcat/mypro/error.%d.log</fileNamePattern>
+            <!--<fileNamePattern>/var/log/tomcat/mypro/error.%d.log</fileNamePattern>-->
+            <fileNamePattern>E:\log\mypro\error/error.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
